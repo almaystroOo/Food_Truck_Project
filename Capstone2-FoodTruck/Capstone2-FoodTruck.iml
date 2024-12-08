@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4">
+  <component name="FacetManager">
+    <facet type="jpa" name="JPA">
+      <configuration>
+        <setting name="validation-enabled" value="true" />
+        <setting name="provider-name" value="Hibernate" />
+        <datasource-mapping>
+          <factory-entry name="Capstone2-FoodTruck" value="5cf8f278-7b39-4eae-8d33-57769c0ffd96" />
+          <factory-entry name="entityManagerFactory" value="5cf8f278-7b39-4eae-8d33-57769c0ffd96" />
+        </datasource-mapping>
+        <naming-strategy-map />
+      </configuration>
+    </facet>
+  </component>
+</module>
