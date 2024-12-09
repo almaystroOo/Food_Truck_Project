@@ -84,4 +84,22 @@ public class ProductService{
         }
     }
 
+    public double calculateAverageProductPrice(Integer foodTruckId) {
+        Double averagePrice = productRepository.getAveragePriceByFoodTruckId(foodTruckId);
+        if (averagePrice == null) {
+            return 0.0;
+        }
+        return averagePrice;
+    }
+
+    public String countAvailableAndUnavailableProducts(Integer foodTruckId) {
+        int availableCount = productRepository.countByFoodTruckIdAndAvailability(foodTruckId, "Available");
+        int unavailableCount = productRepository.countByFoodTruckIdAndAvailability(foodTruckId, "Unavailable");
+
+        String result = "Available: " + availableCount + ", Unavailable: " + unavailableCount;
+        return result;
+    }
+
+
+
 }

@@ -69,4 +69,18 @@ public class ProductController {
         double purchaseProduct = productService.purchaseProduct(productId);
         return ResponseEntity.ok(purchaseProduct);
     }
+
+    @GetMapping("/average-price/{foodTruckId}")
+    public ResponseEntity<Double> calculateAverageProductPrice(@PathVariable Integer foodTruckId) {
+        double averagePrice = productService.calculateAverageProductPrice(foodTruckId);
+        return ResponseEntity.ok(averagePrice);
+    }
+
+    @GetMapping("/food-truck/{id}/product-count")
+    public ResponseEntity<String> countAvailableAndUnavailableProducts(@PathVariable Integer id) {
+        String productCounts = productService.countAvailableAndUnavailableProducts(id);
+        return ResponseEntity.ok(productCounts);
+    }
+
+
 }

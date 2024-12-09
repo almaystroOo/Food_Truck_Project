@@ -73,9 +73,13 @@ public class FoodTruckService {
 
     public double calculateDailyNetProfit(Integer foodTruckId) {
         Double totalRevenue = orderRepository.getTotalRevenue(foodTruckId);
+        if (totalRevenue == null) {
+            totalRevenue = 0.0;
+        }
         double totalCost = calculateTotalCost(foodTruckId);
-        return (totalRevenue != null ? totalRevenue : 0) - totalCost;
+        return totalRevenue - totalCost;
     }
+
 
 
     public double suggestProductPrice(int productId, double profitMargin) {
@@ -101,9 +105,12 @@ public class FoodTruckService {
 
 
     public LocalDate suggestMaintenanceDate(LocalDate lastMaintenanceDate) {
+
         return lastMaintenanceDate.plusMonths(6);
     }
 }
+
+
 
 
 
