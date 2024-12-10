@@ -1,7 +1,7 @@
 package com.example.capstone2foodtruck.Service;
 
 import com.example.capstone2foodtruck.ApiResponse.ApiExcepiton;
-import com.example.capstone2foodtruck.Model.User;
+import com.example.capstone2foodtruck.Model.App_User;
 import com.example.capstone2foodtruck.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,42 +17,42 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public List<User> getUser(){
+    public List<App_User> getUser(){
         return userRepository.findAll();
     }
 
 
-    public void addUser(User user){
-        userRepository.save(user);
+    public void addUser(App_User appUser){
+        userRepository.save(appUser);
     }
 
 
-    public void updateUser(Integer id,User user){
-        User oldUser=userRepository.findUserById(id);
+    public void updateUser(Integer id, App_User appUser){
+        App_User oldAppUser =userRepository.findUserById(id);
 
-        if(oldUser==null){
+        if(oldAppUser ==null){
             throw new ApiExcepiton("id not found");
         }
 
-        oldUser.setName(user.getName());
-        oldUser.setEmail(user.getEmail());
-        oldUser.setPassword(user.getPassword());
-        oldUser.setPhone(user.getPhone());
-        oldUser.setUserType(user.getUserType());
+        oldAppUser.setName(appUser.getName());
+        oldAppUser.setEmail(appUser.getEmail());
+        oldAppUser.setPassword(appUser.getPassword());
+        oldAppUser.setPhone(appUser.getPhone());
+        oldAppUser.setUserType(appUser.getUserType());
 
-        userRepository.save(oldUser);
+        userRepository.save(oldAppUser);
     }
 
 
     public void deleteUser(Integer id){
 
-        User oldUser=userRepository.findUserById(id);
+        App_User oldAppUser =userRepository.findUserById(id);
 
-        if(oldUser==null){
+        if(oldAppUser ==null){
             throw new ApiExcepiton("id not found");
         }
 
-        userRepository.delete(oldUser);
+        userRepository.delete(oldAppUser);
 
     }
 

@@ -17,24 +17,24 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @GetMapping("/get")
-    public ResponseEntity get() {
+    public  ResponseEntity<?> get() {
 
         return ResponseEntity.status(HttpStatus.OK).body(employeeService.getEmployee());
     }
 
     @PostMapping("/add")
-    public ResponseEntity add(@RequestBody @Valid Employee employee, Errors errors) {
+    public ResponseEntity<?> add(@RequestBody @Valid Employee employee, Errors errors) {
         if (errors.hasErrors()) {
             String message = errors.getFieldError().getDefaultMessage();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
         }
 
-        employeeService.addEmployee(employee);
+        employeeService.addEmployee(employee,employee.getId());
         return ResponseEntity.status(HttpStatus.OK).body("Employee added");
     }
 
    @PutMapping("/update/{id}")
-    public ResponseEntity update(@PathVariable Integer id, @RequestBody @Valid Employee employee, Errors errors) {
+    public  ResponseEntity<?> update(@PathVariable Integer id, @RequestBody @Valid Employee employee, Errors errors) {
         if (errors.hasErrors()) {
             String message = errors.getFieldError().getDefaultMessage();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
@@ -45,7 +45,7 @@ public class EmployeeController {
 
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity delete(@PathVariable Integer id) {
+    public  ResponseEntity<?> delete(@PathVariable Integer id) {
 
         employeeService.deleteEmployee(id);
         return ResponseEntity.status(HttpStatus.OK).body("Employee delete");

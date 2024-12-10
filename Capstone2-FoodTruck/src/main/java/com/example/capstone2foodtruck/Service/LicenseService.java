@@ -2,14 +2,16 @@ package com.example.capstone2foodtruck.Service;
 
 
 import com.example.capstone2foodtruck.ApiResponse.ApiExcepiton;
-import com.example.capstone2foodtruck.Model.License;
+import com.example.capstone2foodtruck.Model.FoodTruck;
+import com.example.capstone2foodtruck.Model.Truck_License;
+import com.example.capstone2foodtruck.Repository.FoodTruckRepository;
 import com.example.capstone2foodtruck.Repository.LicenseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 import java.util.List;
 
 @Service
@@ -17,55 +19,43 @@ import java.util.List;
 public class LicenseService {
 
     private final LicenseRepository licenseRepository;
+    private final FoodTruckRepository foodTruckRepository;
 
-
-    public List<License> getLicense(){
+    public List<Truck_License> getLicense() {
         return licenseRepository.findAll();
     }
 
-
-    public void addLicense(License license){
-        licenseRepository.save(license);
+    public void addLicense(Truck_License truckLicense, Integer foodTruckId) {
+        FoodTruck foodTruck = foodTruckRepository.findById(foodTruckId)
+                .orElseThrow(() -> new ApiExcepiton("Food truck not found"));
+        truckLicense.setFoodTruck(foodTruck);
+        licenseRepository.save(truckLicense);
     }
 
+    public void updateLicense(Integer id, Truck_License truckLicense) {
+        Truck_License oldTruckLicense = licenseRepository.findById(id)
+                .orElseThrow(() -> new ApiExcepiton("License not found"));
 
-    public void updateLicense(Integer id,License license){
-        License oldLicense=licenseRepository.findLicenseById(id);
+        oldTruckLicense.setFoodTruck(truckLicense.getFoodTruck());
+        oldTruckLicense.setIssueDate(truckLicense.getIssueDate());
+        oldTruckLicense.setExpiryDate(truckLicense.getExpiryDate());
+        oldTruckLicense.setStatus(truckLicense.getStatus());
+        oldTruckLicense.setFee(truckLicense.getFee());
 
-        if(oldLicense==null){
-            throw new ApiExcepiton("id not found");
-        }
-
-        oldLicense.setFoodTruckId(license.getFoodTruckId());
-        oldLicense.setIssuedDate(license.getIssuedDate());
-        oldLicense.setExpiryDate(license.getExpiryDate());
-        oldLicense.setStatus(license.getStatus());
-        oldLicense.setFee(license.getFee());
-        licenseRepository.save(oldLicense);
+        licenseRepository.save(oldTruckLicense);
     }
 
+    public void deleteLicense(Integer id) {
+        Truck_License oldTruckLicense = licenseRepository.findById(id)
+                .orElseThrow(() -> new ApiExcepiton("License not found"));
 
-    public void deleteLicense(Integer id){
-
-        License oldLicense=licenseRepository.findLicenseById(id);
-
-        if(oldLicense==null){
-            throw new ApiExcepiton("id not found");
-        }
-
-        licenseRepository.delete(oldLicense);
-
+        licenseRepository.delete(oldTruckLicense);
     }
 
     public Integer calculateExpirationPeriod(Integer foodTruckId) {
-        List<License> licenses = licenseRepository.findByFoodTruckId(foodTruckId);
-        Integer totalDaysUntilExpiration = 0;
-
-        for (License license : licenses) {
-            Integer daysUntilExpiration = (int) ChronoUnit.DAYS.between(LocalDate.now(), license.getExpiryDate());
-            totalDaysUntilExpiration += daysUntilExpiration;
-        }
-
-        return totalDaysUntilExpiration;
+        List<Truck_License> licens = licenseRepository.findByFoodTruckId(foodTruckId);
+        return licens.stream()
+                .mapToInt(truckLicense -> (int) ChronoUnit.DAYS.between(LocalDate.now(), (Temporal) truckLicense.getExpiryDate()))
+                .sum();
     }
 }

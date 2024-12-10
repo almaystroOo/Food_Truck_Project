@@ -19,13 +19,13 @@ public class ReviewController {
 
 
     @GetMapping("/get")
-    public ResponseEntity get(){
+    public ResponseEntity<?> get(){
 
         return ResponseEntity.status(HttpStatus.OK).body(reviewService.getReview());
     }
 
     @PostMapping("/add")
-    public ResponseEntity add(@RequestBody @Valid Review review, Errors errors){
+    public ResponseEntity<?> add(@RequestBody @Valid Review review, Errors errors){
         if(errors.hasErrors()){
             String message = errors.getFieldError().getDefaultMessage();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
@@ -37,7 +37,7 @@ public class ReviewController {
 
 
     @PutMapping("/update/{id}")
-    public ResponseEntity update(@PathVariable Integer id , @RequestBody @Valid Review review, Errors errors ){
+    public ResponseEntity<?> update(@PathVariable Integer id , @RequestBody @Valid Review review, Errors errors ){
         if(errors.hasErrors()){
             String message = errors.getFieldError().getDefaultMessage();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
@@ -48,10 +48,10 @@ public class ReviewController {
 
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity delete(@PathVariable Integer id){
+    public ResponseEntity<?> delete(@PathVariable Integer id){
 
         reviewService.deleteReview(id);
-        return ResponseEntity.status(HttpStatus.ok).body("Review delete");
+        return ResponseEntity.status(HttpStatus.OK).body("Review delete");
     }
 
     @PostMapping("/rate/{productId}/{rating}")

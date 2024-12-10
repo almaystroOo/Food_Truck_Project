@@ -2,7 +2,6 @@ package com.example.capstone2foodtruck.Controller;
 
 
 import com.example.capstone2foodtruck.Model.Product;
-import com.example.capstone2foodtruck.Model.User;
 import com.example.capstone2foodtruck.Service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,14 +19,14 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping("/get")
-    public ResponseEntity get(){
+    @GetMapping("/getAll")
+    public ResponseEntity<?> get(){
 
         return ResponseEntity.status(HttpStatus.OK).body(productService.getProduct());
     }
 
     @PostMapping("/add")
-    public ResponseEntity add(@RequestBody @Valid Product product, Errors errors){
+    public ResponseEntity<?> add(@RequestBody @Valid Product product, Errors errors){
         if(errors.hasErrors()){
             String message = errors.getFieldError().getDefaultMessage();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
@@ -39,7 +38,7 @@ public class ProductController {
 
 
     @PutMapping("/update/{id}")
-    public ResponseEntity update(@PathVariable Integer id , @RequestBody @Valid Product product, Errors errors ){
+    public ResponseEntity<?> update(@PathVariable Integer id , @RequestBody @Valid Product product, Errors errors ){
         if(errors.hasErrors()){
             String message = errors.getFieldError().getDefaultMessage();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
@@ -50,10 +49,10 @@ public class ProductController {
 
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity delete(@PathVariable Integer id){
+    public ResponseEntity<?> delete(@PathVariable Integer id){
 
         productService.deleteProduct(id);
-        return ResponseEntity.status(HttpStatus.ok).body("product delete");
+        return ResponseEntity.status(HttpStatus.OK).body("product delete");
     }
 
     @GetMapping("/suggest-meals/{maxPrice}")

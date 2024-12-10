@@ -1,6 +1,6 @@
 package com.example.capstone2foodtruck.Controller;
 
-import com.example.capstone2foodtruck.Model.User;
+import com.example.capstone2foodtruck.Model.App_User;
 import com.example.capstone2foodtruck.Service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,39 +19,39 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/get")
-    public ResponseEntity get(){
+    public ResponseEntity<?> get(){
 
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUser());
     }
 
     @PostMapping("/add")
-    public ResponseEntity add(@RequestBody @Valid User user, Errors errors){
+    public ResponseEntity<?> add(@RequestBody @Valid App_User appUser, Errors errors){
         if(errors.hasErrors()){
             String message = errors.getFieldError().getDefaultMessage();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
         }
 
-        userService.addUser(user);
+        userService.addUser(appUser);
         return ResponseEntity.status(HttpStatus.OK).body("User added");
     }
 
 
     @PutMapping("/update/{id}")
-    public ResponseEntity update(@PathVariable Integer id ,@RequestBody @Valid  User user, Errors errors ){
+    public ResponseEntity<?> update(@PathVariable Integer id , @RequestBody @Valid App_User appUser, Errors errors ){
         if(errors.hasErrors()){
             String message = errors.getFieldError().getDefaultMessage();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
         }
-        userService.updateUser(id,user);
+        userService.updateUser(id, appUser);
         return ResponseEntity.status(HttpStatus.OK).body("User update");
     }
 
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity delete(@PathVariable Integer id){
+    public ResponseEntity<?> delete(@PathVariable Integer id){
 
         userService.deleteUser(id);
-        return ResponseEntity.status(HttpStatus.ok).body("User delete");
+        return ResponseEntity.status(HttpStatus.OK).body("User delete");
     }
 
     @PostMapping("/addFavorite/{orderId}")
