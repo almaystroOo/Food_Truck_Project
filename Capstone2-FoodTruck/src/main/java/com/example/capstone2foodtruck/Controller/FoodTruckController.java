@@ -36,8 +36,7 @@ public class FoodTruckController {
         return ResponseEntity.status(HttpStatus.OK).body("FoodTruck added");
     }
 
-
-    @PutMapping("/update/{id}")
+ @PutMapping("/update/{id}")
     public ResponseEntity update(@PathVariable Integer id, @RequestBody @Valid FoodTruck foodTruck, Errors errors) {
         if (errors.hasErrors()) {
             String message = errors.getFieldError().getDefaultMessage();
@@ -52,7 +51,7 @@ public class FoodTruckController {
     public ResponseEntity delete(@PathVariable Integer id) {
 
       foodTruckService.deleteFoodTruck(id);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("FoodTruck delete");
+        return ResponseEntity.status(HttpStatus.OK).body("FoodTruck delete");
     }
 
 
