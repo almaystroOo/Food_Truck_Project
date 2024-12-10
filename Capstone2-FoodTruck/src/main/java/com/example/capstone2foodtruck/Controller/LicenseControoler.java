@@ -35,7 +35,7 @@ public class LicenseControoler {
     }
 
 
-    @PutMapping("/update/{id}")
+       @PutMapping("/update/{id}")
     public ResponseEntity update(@PathVariable Integer id, @RequestBody @Valid License license, Errors errors) {
         if (errors.hasErrors()) {
             String message = errors.getFieldError().getDefaultMessage();
@@ -50,7 +50,7 @@ public class LicenseControoler {
     public ResponseEntity delete(@PathVariable Integer id) {
 
         licenseService.deleteLicense(id);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("License delete");
+        return ResponseEntity.status(HttpStatus.OK).body("License delete");
     }
 
     @GetMapping("/expiration-period/{foodTruckId}")
