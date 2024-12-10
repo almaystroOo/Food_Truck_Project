@@ -33,8 +33,7 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.OK).body("Employee added");
     }
 
-
-    @PutMapping("/update/{id}")
+   @PutMapping("/update/{id}")
     public ResponseEntity update(@PathVariable Integer id, @RequestBody @Valid Employee employee, Errors errors) {
         if (errors.hasErrors()) {
             String message = errors.getFieldError().getDefaultMessage();
@@ -49,7 +48,7 @@ public class EmployeeController {
     public ResponseEntity delete(@PathVariable Integer id) {
 
         employeeService.deleteEmployee(id);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Employee delete");
+        return ResponseEntity.status(HttpStatus.OK).body("Employee delete");
     }
 
 }
