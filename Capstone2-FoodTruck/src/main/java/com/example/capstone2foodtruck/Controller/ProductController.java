@@ -53,7 +53,7 @@ public class ProductController {
     public ResponseEntity delete(@PathVariable Integer id){
 
         productService.deleteProduct(id);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("product delete");
+        return ResponseEntity.status(HttpStatus.ok).body("product delete");
     }
 
     @GetMapping("/suggest-meals/{maxPrice}")
