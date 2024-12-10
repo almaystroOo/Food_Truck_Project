@@ -51,7 +51,7 @@ public class ReviewController {
     public ResponseEntity delete(@PathVariable Integer id){
 
         reviewService.deleteReview(id);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Review delete");
+        return ResponseEntity.status(HttpStatus.ok).body("Review delete");
     }
 
     @PostMapping("/rate/{productId}/{rating}")
