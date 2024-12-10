@@ -51,7 +51,7 @@ public class UserController {
     public ResponseEntity delete(@PathVariable Integer id){
 
         userService.deleteUser(id);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User delete");
+        return ResponseEntity.status(HttpStatus.ok).body("User delete");
     }
 
     @PostMapping("/addFavorite/{orderId}")
