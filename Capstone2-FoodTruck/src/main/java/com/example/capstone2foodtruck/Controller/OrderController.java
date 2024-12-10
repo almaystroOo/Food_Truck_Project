@@ -55,7 +55,7 @@ public class OrderController {
     public ResponseEntity delete(@PathVariable Integer id) {
 
         orderService.deleteOrder(id);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Order delete");
+        return ResponseEntity.status(HttpStatus.ok).body("Order delete");
     }
 
     @GetMapping("/expected-waiting-time/{orderId}")
